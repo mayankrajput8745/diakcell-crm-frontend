@@ -1,26 +1,13 @@
 import { Card, Row, Col, theme as themeConfig, Layout, Typography } from "antd";
-import { useEffect } from "react";
-import { useLocation, useNavigate, Outlet } from "react-router-dom"
-import { ROUTE_PATH } from "../../configs/slider";
+import { Outlet } from "react-router-dom";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
+const SIDER_IMG = "/vite.svg";
+
 const AuthContainer = () => {
     const { token } = themeConfig.useToken();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const userId = localStorage.getItem('user-id'); 
-    const tokenData = localStorage.getItem('auth-tokens');
-
-    useEffect(() => {0
-        const isAuthRoute = location.pathname.includes('auth');
-
-        if (userId && tokenData && !isAuthRoute) {
-            navigate(ROUTE_PATH.ORDERS);
-        }
-    }, [userId, tokenData, location.pathname]);
 
     return (
         <Layout
@@ -34,13 +21,14 @@ const AuthContainer = () => {
                     style={{
                         justifyContent: "center",
                         position: "relative",
-                        backgroundColor: "none",
+                        minHeight: "100vh",
                     }}
                 >
                     <Col xs={24} md={12}>
                         <Row
                             justify="center"
                             align="middle"
+                            style={{ minHeight: "100vh" }}
                         >
                             <Outlet />
                         </Row>
@@ -104,5 +92,7 @@ const AuthContainer = () => {
                 </Row>
             </Content>
         </Layout>
-    )
-}
+    );
+};
+
+export default AuthContainer;

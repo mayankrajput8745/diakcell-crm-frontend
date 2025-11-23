@@ -5,5 +5,10 @@ const initialState = {
     userInfo: getDataFromLocalStorage(LOCAL_STORAGE.APP_USER, null),
     accessToken: getDataFromLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, null),
     refreshToken: getDataFromLocalStorage(LOCAL_STORAGE.REFRESH_TOKEN, null),
-    featureFlags: getDataFromLocalStorage(LOCAL_STORAGE.FEATURE_FLAGS, null)
+    featureFlags: getDataFromLocalStorage(LOCAL_STORAGE.FEATURE_FLAGS, null),
+    loading: false,
+    refreshing: false,
+    error: null
 };
+
+export default initialState;
