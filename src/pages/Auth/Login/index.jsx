@@ -251,11 +251,12 @@ const Login = () => {
                                 </Checkbox>
                             </Form.Item>
                             <Link 
-                                href={ROUTE_PATH.FORGOT_PASSWORD}
+                                onClick={() => navigate(ROUTE_PATH.FORGOT_PASSWORD)}
                                 style={{ 
                                     fontSize: '14px',
                                     fontWeight: 500,
-                                    color: '#3B82F6'
+                                    color: '#3B82F6',
+                                    cursor: 'pointer'
                                 }}
                             >
                                 Forgot your password?
@@ -287,10 +288,11 @@ const Login = () => {
                             <Text style={{ color: '#6B7280', fontSize: '14px' }}>
                                 Don't have an account?{' '}
                                 <Link 
-                                    href="#"
+                                    onClick={() => navigate(ROUTE_PATH.REQUEST_ACCESS)}
                                     style={{ 
                                         fontWeight: 500,
-                                        color: '#3B82F6'
+                                        color: '#3B82F6',
+                                        cursor: 'pointer'
                                     }}
                                 >
                                     Request Access

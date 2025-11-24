@@ -2,9 +2,10 @@ import { RiReceiptLine } from "@remixicon/react";
 
 export const ROUTE_PATH = Object.freeze({
     // ----------------- AUTH ROUTES -----------------
-    LOGIN: "/auth/login",
+     LOGIN: "/auth/login",
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
+    REQUEST_ACCESS: "/auth/request-access", 
 
     // ----------------- APP ROUTES ----------------
     ORDERS: "/",

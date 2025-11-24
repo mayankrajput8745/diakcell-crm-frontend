@@ -8,6 +8,9 @@ import { ROUTE_PATH } from "./configs/slider";
 
 const AuthContainer = React.lazy(() => import('./pages/AuthContainer'));
 const Login = React.lazy(() => import('./pages/Auth/Login'));
+const RequestAccess = React.lazy(() => import('./pages/Auth/RequestAccess'));
+const ForgotPassword = React.lazy(() => import('./pages/Auth/ForgotPassword'));
+// const ResetPassword = React.lazy(() => import('./pages/Auth/ResetPassword'));
 const OrdersPage = React.lazy(() => import('./pages/Orders'));
 
 function App() {
@@ -23,8 +26,9 @@ function App() {
               </PublicRoute>
             }>
               <Route path="login" element={<Login />} />
-              <Route path="forgot-password" element={<div>Forgot Password</div>} />
-              <Route path="reset-password" element={<div>Reset Password</div>} />
+              <Route path="request-access" element={<RequestAccess />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
+              {/* <Route path="reset-password" element={<ResetPassword />} /> */}
             </Route>
 
             {/* Protected Routes - Require authentication */}
