@@ -8,23 +8,23 @@ import { COMPANY_NAME } from "../../utils/constants";
 
 const { Text } = Typography;
 
-const Loading = () => {
+const FullPageLoader = ({ message = "Processing..." }) => {
     const [progress, setProgress] = useState(0);
 
     const currentYear = moment().format('YYYY');
     const appVersion = import.meta.env.VITE_APP_VERSION || '1.0.0';
 
     useEffect(() => {
-        // Simulate loading progress
+        setProgress(0);
         const interval = setInterval(() => {
             setProgress(prev => {
-                if (prev >= 100) {
+                if (prev >= 90) {
                     clearInterval(interval);
-                    return 100;
+                    return 90; // Stop at 90% until request completes
                 }
-                return prev + 10;
+                return prev + 15;
             });
-        }, 200);
+        }, 150);
 
         return () => clearInterval(interval);
     }, []);
@@ -37,8 +37,13 @@ const Loading = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            background: '#FFFFFF',
-            overflow: 'hidden'
+            background: 'rgba(255, 255, 255, 0.98)',
+            backdropFilter: 'blur(4px)',
+            overflow: 'hidden',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            zIndex: 9999
         }}>
             {/* Logo Icon */}
             <div style={{
@@ -71,7 +76,7 @@ const Loading = () => {
                         color: '#374151',
                         fontWeight: 500
                     }}>
-                        Loading...
+                        {message}
                     </Text>
                     <Text style={{ 
                         fontSize: '14px',
@@ -89,9 +94,6 @@ const Loading = () => {
                     showInfo={false}
                     strokeWidth={8}
                     trailColor="#E5E7EB"
-                    style={{
-                        marginBottom: '0'
-                    }}
                 />
             </div>
 
@@ -112,4 +114,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default FullPageLoader;
