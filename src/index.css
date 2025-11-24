@@ -3,3 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Ant Design Override Overall */
+.ant-form-large .ant-form-item .ant-form-item-label > label {
+    height: 0 !important;
+    line-height: 0 !important; /* optional */
+    padding: 0 !important;     /* optional */
+}
