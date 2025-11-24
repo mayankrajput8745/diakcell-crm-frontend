@@ -126,7 +126,7 @@ const AuthContainer = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    padding: "40px 20px"
+                    padding: "35px 20px"
                 }}
             >
                 <Outlet />
