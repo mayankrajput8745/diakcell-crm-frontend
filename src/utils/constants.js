@@ -15,6 +15,6 @@ export const METHOD_TYPES = Object.freeze({
   PATCH: "PATCH",
 });
 
-export const COMPANY_NAME = "Daiakcell";
+export const COMPANY_NAME = "Daickell";
 export const COMPANY_TAGLINE = "Efficiently Manage Your Inventory.";
 export const COMPANY_DESCRIPTION = "Gain control and visibility over your stock with our intuitive and powerful inventory management system.";
