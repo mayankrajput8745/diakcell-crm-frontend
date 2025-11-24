@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setDataInLocalStorage, getDataFromLocalStorage } from './common';
 import { LOCAL_STORAGE } from './constants';
 
-const BASE_URL = import.meta.env.REACT_APP_BASE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_APP_BASE_BACKEND_URL;
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -28,6 +28,7 @@ const apiClient = axios.create({
 // Request interceptor - Add access token to requests
 apiClient.interceptors.request.use(
     (config) => {
+        config.headers['x-api-key'] = import.meta.env.VITE_X_API_KEY;
         const accessToken = getDataFromLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, null);
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;

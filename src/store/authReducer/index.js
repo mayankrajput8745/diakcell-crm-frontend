@@ -45,15 +45,15 @@ const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userInfo = action.payload.user;
-                state.accessToken = action.payload.accessToken;
-                state.refreshToken = action.payload.refreshToken;
+                state.userInfo = action.payload.data.user;
+                state.accessToken = action.payload.data.tokens.accessToken;
+                state.refreshToken = action.payload.data.tokens.refreshToken;
                 state.featureFlags = action.payload.featureFlags;
                 
                 // Save to localStorage
-                setDataInLocalStorage(LOCAL_STORAGE.APP_USER, action.payload.user);
-                setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.accessToken);
-                setDataInLocalStorage(LOCAL_STORAGE.REFRESH_TOKEN, action.payload.refreshToken);
+                setDataInLocalStorage(LOCAL_STORAGE.APP_USER, action.payload.data.user);
+                setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.data.tokens.accessToken);
+                setDataInLocalStorage(LOCAL_STORAGE.REFRESH_TOKEN, action.payload.data.tokens.refreshToken);
                 if (action.payload.featureFlags) {
                     setDataInLocalStorage(LOCAL_STORAGE.FEATURE_FLAGS, action.payload.featureFlags);
                 }
@@ -69,14 +69,14 @@ const authSlice = createSlice({
             })
             .addCase(refreshToken.fulfilled, (state, action) => {
                 state.refreshing = false;
-                state.accessToken = action.payload.accessToken;
-                if (action.payload.refreshToken) {
-                    state.refreshToken = action.payload.refreshToken;
+                state.accessToken = action.payload.data.accessToken;
+                if (action.payload.data.refreshToken) {
+                    state.refreshToken = action.payload.data.refreshToken;
                 }
                 
                 // Update localStorage
-                setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.accessToken);
-                if (action.payload.refreshToken) {
+                setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.data.accessToken);
+                if (action.payload.data.refreshToken) {
                     setDataInLocalStorage(LOCAL_STORAGE.REFRESH_TOKEN, action.payload.refreshToken);
                 }
             })
