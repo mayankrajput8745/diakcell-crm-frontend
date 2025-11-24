@@ -10,7 +10,7 @@ const AuthContainer = React.lazy(() => import('./pages/AuthContainer'));
 const Login = React.lazy(() => import('./pages/Auth/Login'));
 const RequestAccess = React.lazy(() => import('./pages/Auth/RequestAccess'));
 const ForgotPassword = React.lazy(() => import('./pages/Auth/ForgotPassword'));
-// const ResetPassword = React.lazy(() => import('./pages/Auth/ResetPassword'));
+const ResetPassword = React.lazy(() => import('./pages/Auth/ResetPassword'));
 const OrdersPage = React.lazy(() => import('./pages/Orders'));
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="request-access" element={<RequestAccess />} />
               <Route path="forgot-password" element={<ForgotPassword />} />
-              {/* <Route path="reset-password" element={<ResetPassword />} /> */}
+              <Route path="reset-password" element={<ResetPassword />} />
             </Route>
 
             {/* Protected Routes - Require authentication */}
