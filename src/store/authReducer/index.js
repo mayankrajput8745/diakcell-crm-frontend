@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import initialState from './initialState';
-import { LOGIN, LOGOUT, FORGOT_PASSWORD, RESET_PASSWORD, REFRESH_TOKEN } from './api';
+import { LOGIN, LOGOUT, FORGOT_PASSWORD, RESET_PASSWORD, REFRESH_TOKEN, REQUEST_ACCESS } from './api';
 import { METHOD_TYPES } from "../../utils/constants";
 import { fetchDataAndProceedWithToolkit } from "../../utils/api";
 import { setDataInLocalStorage } from "../../utils/common";
@@ -169,6 +169,18 @@ export const resetPassword = createAsyncThunk(
     async (data = {}, helpers) => fetchDataAndProceedWithToolkit(
         {
             url: RESET_PASSWORD,
+            method: METHOD_TYPES.POST,
+            data,
+        },
+        helpers
+    )
+);
+
+export const requestAccess = createAsyncThunk(
+    REQUEST_ACCESS,
+    async (data = {}, helpers) => fetchDataAndProceedWithToolkit(
+        {
+            url: REQUEST_ACCESS,
             method: METHOD_TYPES.POST,
             data,
         },

@@ -1,6 +1,7 @@
 import { Form, Input, Button, Typography, Card } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { ROUTE_PATH } from "../../../configs/slider";
 import { useDispatch } from "react-redux";
@@ -9,24 +10,27 @@ import { forgotPassword } from "../../../store/authReducer";
 const { Title, Text, Link } = Typography;
 
 const ForgotPassword = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     const onFinish = async (values) => {
+        setLoading(true);
         try {
             await dispatch(forgotPassword(values)).unwrap();
-            // Only send message via navigation state - don't show toast here
-            navigate(ROUTE_PATH.LOGIN, { 
-                state: { 
+            navigate(ROUTE_PATH.LOGIN, {
+                state: {
                     message: 'Password reset link has been sent to your email!',
                     type: 'success'
-                } 
+                }
             });
         } catch (error) {
-            // Show error toast immediately
+            // Show error toast immediately on this page
             toast.error('Failed to send reset link. Please try again.');
             console.error("Forgot password failed:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -47,9 +51,9 @@ const ForgotPassword = () => {
         >
             {/* Header */}
             <div style={{ marginBottom: '32px' }}>
-                <Title 
-                    level={2} 
-                    style={{ 
+                <Title
+                    level={2}
+                    style={{
                         fontSize: '28px',
                         fontWeight: 700,
                         marginBottom: '8px',
@@ -86,7 +90,7 @@ const ForgotPassword = () => {
                     ]}
                     style={{ marginBottom: '24px' }}
                 >
-                    <Input 
+                    <Input
                         prefix={<MailOutlined style={{ color: '#9CA3AF' }} />}
                         placeholder="you@example.com"
                         style={{
@@ -98,10 +102,12 @@ const ForgotPassword = () => {
 
                 {/* Submit Button */}
                 <Form.Item style={{ marginBottom: '20px' }}>
-                    <Button 
-                        type="primary" 
-                        htmlType="submit" 
+                    <Button
+                        type="primary"
+                        htmlType="submit"
                         block
+                        loading={loading}
+                        disabled={loading}
                         style={{
                             height: '44px',
                             fontSize: '16px',
@@ -119,9 +125,9 @@ const ForgotPassword = () => {
                 <div style={{ textAlign: 'center' }}>
                     <Text style={{ color: '#6B7280', fontSize: '14px' }}>
                         Remember your password?{' '}
-                        <Link 
+                        <Link
                             onClick={() => navigate(ROUTE_PATH.LOGIN)}
-                            style={{ 
+                            style={{
                                 fontWeight: 500,
                                 color: '#3B82F6',
                                 cursor: 'pointer'

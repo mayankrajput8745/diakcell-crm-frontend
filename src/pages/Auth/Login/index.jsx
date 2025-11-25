@@ -2,7 +2,7 @@ import { Form, Input, Button, Checkbox, Typography, Card } from "antd";
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { login } from "../../../store/authReducer";
 import { ROUTE_PATH } from "../../../configs/slider";
@@ -14,10 +14,12 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { loading } = useSelector(state => state.auth);
+    const toastShownRef = useRef(false); // Track if toast has been shown
 
-    // Show toast message if redirected from forgot/reset password
     useEffect(() => {
-        if (location.state?.message) {
+        if (location.state?.message && !toastShownRef.current) {
+            toastShownRef.current = true; // Mark as shown
+            
             const messageType = location.state.type || 'info';
             
             if (messageType === 'success') {
@@ -44,10 +46,9 @@ const Login = () => {
                 });
             }
             
-            // Clear the state to prevent showing message on refresh
-            window.history.replaceState({}, document.title);
+            navigate(location.pathname, { replace: true, state: {} });
         }
-    }, [location]);
+    }, [location.state, location.pathname, navigate]);
 
     const onFinish = async (values) => {
         try {

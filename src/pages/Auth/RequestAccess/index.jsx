@@ -1,29 +1,37 @@
-import { Form, Input, Button, Typography, Card, message } from "antd";
+import { Form, Input, Button, Typography, Card } from "antd";
 import { UserOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { ROUTE_PATH } from "../../../configs/slider";
+import { requestAccess } from "../../../store/authReducer";
 
 const { Title, Text, Link } = Typography;
 const { TextArea } = Input;
 
 const RequestAccess = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     const onFinish = async (values) => {
+        setLoading(true);
         try {
-            // TODO: Implement API call to submit access request
-            console.log('Request access values:', values);
+            await dispatch(requestAccess(values)).unwrap();
+            navigate(ROUTE_PATH.LOGIN, { 
+                state: { 
+                    message: 'Your access request has been submitted successfully! We will get back to you soon.',
+                    type: 'success'
+                } 
+            });
             
-            message.success('Your request has been submitted successfully! We will review it shortly.');
-            
-            // Redirect to login after a short delay
-            setTimeout(() => {
-                navigate(ROUTE_PATH.LOGIN);
-            }, 2000);
         } catch (error) {
-            message.error('Failed to submit request. Please try again.');
+            toast.error('Failed to submit request. Please try again.');
             console.error("Request access failed:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -86,6 +94,7 @@ const RequestAccess = () => {
                     <Input 
                         prefix={<UserOutlined style={{ color: '#9CA3AF' }} />}
                         placeholder="e.g., John Doe"
+                        disabled={loading}
                         style={{
                             borderRadius: '6px',
                             padding: '10px 12px'
@@ -110,6 +119,7 @@ const RequestAccess = () => {
                     <Input 
                         prefix={<MailOutlined style={{ color: '#9CA3AF' }} />}
                         placeholder="you@example.com"
+                        disabled={loading}
                         style={{
                             borderRadius: '6px',
                             padding: '10px 12px'
@@ -130,6 +140,7 @@ const RequestAccess = () => {
                     <TextArea
                         rows={3}
                         placeholder="e.g., Sales, http://yoururl"
+                        disabled={loading}
                         style={{
                             borderRadius: '6px',
                         }}
@@ -143,6 +154,8 @@ const RequestAccess = () => {
                         type="primary" 
                         htmlType="submit" 
                         block
+                        loading={loading}
+                        disabled={loading}
                         style={{
                             height: '44px',
                             fontSize: '16px',
@@ -161,11 +174,12 @@ const RequestAccess = () => {
                     <Text style={{ color: '#6B7280', fontSize: '14px' }}>
                         Already have an account?{' '}
                         <Link 
-                            onClick={() => navigate(ROUTE_PATH.LOGIN)}
+                            onClick={() => !loading && navigate(ROUTE_PATH.LOGIN)}
                             style={{ 
                                 fontWeight: 500,
-                                color: '#3B82F6',
-                                cursor: 'pointer'
+                                color: loading ? '#9CA3AF' : '#3B82F6',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                pointerEvents: loading ? 'none' : 'auto'
                             }}
                         >
                             Sign in

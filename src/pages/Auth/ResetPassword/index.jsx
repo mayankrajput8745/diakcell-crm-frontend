@@ -1,6 +1,7 @@
 import { Form, Input, Button, Typography, Card } from "antd";
 import { LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { ROUTE_PATH } from "../../../configs/slider";
@@ -13,13 +14,15 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
     
     // Get token from URL query params
     const token = searchParams.get('token');
 
     const onFinish = async (values) => {
+        setLoading(true);
         try {
-            await dispatch(resetPassword({ ...values, token })).unwrap();
+            await dispatch(resetPassword({ ...values, token })).unwrap();            
             navigate(ROUTE_PATH.LOGIN, { 
                 state: { 
                     message: 'Your password has been reset successfully! Please log in with your new password.',
@@ -27,8 +30,11 @@ const ResetPassword = () => {
                 } 
             });
         } catch (error) {
+            // Show error toast immediately on this page
             toast.error('Failed to reset password. Please try again.');
             console.error("Reset password failed:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -142,6 +148,8 @@ const ResetPassword = () => {
                         type="primary" 
                         htmlType="submit" 
                         block
+                        loading={loading}
+                        disabled={loading}
                         style={{
                             height: '44px',
                             fontSize: '16px',
