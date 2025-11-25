@@ -49,7 +49,7 @@ const authSlice = createSlice({
                 state.accessToken = action.payload.data.tokens.accessToken;
                 state.refreshToken = action.payload.data.tokens.refreshToken;
                 state.featureFlags = action.payload.featureFlags;
-                
+
                 // Save to localStorage
                 setDataInLocalStorage(LOCAL_STORAGE.APP_USER, action.payload.data.user);
                 setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.data.tokens.accessToken);
@@ -62,7 +62,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            
+
             // Refresh Token
             .addCase(refreshToken.pending, (state) => {
                 state.refreshing = true;
@@ -73,7 +73,7 @@ const authSlice = createSlice({
                 if (action.payload.data.refreshToken) {
                     state.refreshToken = action.payload.data.refreshToken;
                 }
-                
+
                 // Update localStorage
                 setDataInLocalStorage(LOCAL_STORAGE.ACCESS_TOKEN, action.payload.data.accessToken);
                 if (action.payload.data.refreshToken) {
@@ -88,14 +88,14 @@ const authSlice = createSlice({
                 state.refreshToken = null;
                 state.featureFlags = null;
             })
-            
+
             // Logout
             .addCase(logout.fulfilled, (state) => {
                 state.userInfo = null;
                 state.accessToken = null;
                 state.refreshToken = null;
                 state.featureFlags = null;
-                
+
                 // Clear localStorage
                 localStorage.removeItem(LOCAL_STORAGE.ACCESS_TOKEN);
                 localStorage.removeItem(LOCAL_STORAGE.REFRESH_TOKEN);
@@ -123,7 +123,7 @@ export const refreshToken = createAsyncThunk(
     async (_, helpers) => {
         const state = helpers.getState();
         const token = state.auth.refreshToken;
-        
+
         return fetchDataAndProceedWithToolkit(
             {
                 url: REFRESH_TOKEN,
@@ -137,13 +137,19 @@ export const refreshToken = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     LOGOUT,
-    async (_, helpers) => fetchDataAndProceedWithToolkit(
-        {
-            url: LOGOUT,
-            method: METHOD_TYPES.POST,
-        },
-        helpers
-    )
+    async (_, helpers) => {
+        const state = helpers.getState();
+        const token = state.auth.refreshToken;
+
+        return fetchDataAndProceedWithToolkit(
+            {
+                url: LOGOUT,
+                method: METHOD_TYPES.POST,
+                data: { refreshToken: token }
+            },
+            helpers
+        );
+    }
 );
 
 export const forgotPassword = createAsyncThunk(

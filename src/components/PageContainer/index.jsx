@@ -98,7 +98,7 @@ const PageContainer = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                    // borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                     minHeight: '72px'
                 }}>
                     <div style={{
