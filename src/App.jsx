@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 // Configs
 import { ROUTE_PATH } from "./configs/slider";
@@ -24,6 +25,51 @@ function App() {
     <BrowserRouter>
       <ErrorBoundary>
         <Suspense fallback={<Loading />}>
+          {/* React Hot Toast Container */}
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            gutter={8}
+            toastOptions={{
+              // Default options
+              duration: 4000,
+              style: {
+                background: '#363636',
+                color: '#fff',
+                fontSize: '14px',
+                padding: '12px 20px',
+                borderRadius: '8px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              },
+              // Success Toast
+              success: {
+                duration: 4000,
+                iconTheme: {
+                  primary: '#10B981',
+                  secondary: '#fff',
+                },
+                style: {
+                  background: '#fff',
+                  color: '#1F2937',
+                  border: '1px solid #D1FAE5',
+                },
+              },
+              // Error Toast
+              error: {
+                duration: 4000,
+                iconTheme: {
+                  primary: '#EF4444',
+                  secondary: '#fff',
+                },
+                style: {
+                  background: '#fff',
+                  color: '#1F2937',
+                  border: '1px solid #FEE2E2',
+                },
+              },
+            }}
+          />
+          
           <Routes>
             {/* Public Routes - Redirect to products if authenticated */}
             <Route path="/auth" element={
@@ -37,10 +83,7 @@ function App() {
               <Route path="reset-password" element={<ResetPassword />} />
             </Route>
 
-
-
             {/* Protected Routes - Require authentication */}
-
             <Route element={<ProtectedRoute />}>
               <Route element={<PageContainer />}>
                 <Route path={ROUTE_PATH.DASHBOARD} element={<div>Dashboard Page</div>} />

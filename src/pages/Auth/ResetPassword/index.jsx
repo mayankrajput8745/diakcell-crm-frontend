@@ -1,11 +1,15 @@
-import { Form, Input, Button, Typography, Card, message } from "antd";
+import { Form, Input, Button, Typography, Card } from "antd";
 import { LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { ROUTE_PATH } from "../../../configs/slider";
+import { resetPassword } from "../../../store/authReducer";
 
 const { Title, Text, Link } = Typography;
 
 const ResetPassword = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [form] = Form.useForm();
@@ -15,17 +19,15 @@ const ResetPassword = () => {
 
     const onFinish = async (values) => {
         try {
-            // TODO: Implement API call to reset password with token
-            console.log('Reset password values:', { ...values, token });
-            
-            message.success('Password has been reset successfully!');
-            
-            // Redirect to login
-            setTimeout(() => {
-                navigate(ROUTE_PATH.LOGIN);
-            }, 1500);
+            await dispatch(resetPassword({ ...values, token })).unwrap();
+            navigate(ROUTE_PATH.LOGIN, { 
+                state: { 
+                    message: 'Your password has been reset successfully! Please log in with your new password.',
+                    type: 'success'
+                } 
+            });
         } catch (error) {
-            message.error('Failed to reset password. Please try again.');
+            toast.error('Failed to reset password. Please try again.');
             console.error("Reset password failed:", error);
         }
     };

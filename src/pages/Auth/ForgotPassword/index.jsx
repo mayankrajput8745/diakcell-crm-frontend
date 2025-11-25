@@ -1,6 +1,7 @@
-import { Form, Input, Button, Typography, Card, message } from "antd";
+import { Form, Input, Button, Typography, Card } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { ROUTE_PATH } from "../../../configs/slider";
 import { useDispatch } from "react-redux";
 import { forgotPassword } from "../../../store/authReducer";
@@ -15,9 +16,16 @@ const ForgotPassword = () => {
     const onFinish = async (values) => {
         try {
             await dispatch(forgotPassword(values)).unwrap();
-            navigate(ROUTE_PATH.LOGIN);
+            // Only send message via navigation state - don't show toast here
+            navigate(ROUTE_PATH.LOGIN, { 
+                state: { 
+                    message: 'Password reset link has been sent to your email!',
+                    type: 'success'
+                } 
+            });
         } catch (error) {
-            message.error('Failed to send reset link. Please try again.');
+            // Show error toast immediately
+            toast.error('Failed to send reset link. Please try again.');
             console.error("Forgot password failed:", error);
         }
     };

@@ -1,7 +1,9 @@
 import { Form, Input, Button, Checkbox, Typography, Card } from "antd";
 import { UserOutlined, LockOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { login } from "../../../store/authReducer";
 import { ROUTE_PATH } from "../../../configs/slider";
 
@@ -10,7 +12,42 @@ const { Title, Text, Link } = Typography;
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { loading } = useSelector(state => state.auth);
+
+    // Show toast message if redirected from forgot/reset password
+    useEffect(() => {
+        if (location.state?.message) {
+            const messageType = location.state.type || 'info';
+            
+            if (messageType === 'success') {
+                toast.success(location.state.message, {
+                    duration: 4000,
+                    position: 'top-center',
+                });
+            } else if (messageType === 'error') {
+                toast.error(location.state.message, {
+                    duration: 4000,
+                    position: 'top-center',
+                });
+            } else if (messageType === 'warning') {
+                toast(location.state.message, {
+                    duration: 4000,
+                    position: 'top-center',
+                    icon: '⚠️',
+                });
+            } else {
+                toast(location.state.message, {
+                    duration: 4000,
+                    position: 'top-center',
+                    icon: 'ℹ️',
+                });
+            }
+            
+            // Clear the state to prevent showing message on refresh
+            window.history.replaceState({}, document.title);
+        }
+    }, [location]);
 
     const onFinish = async (values) => {
         try {
