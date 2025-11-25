@@ -5,9 +5,9 @@ import { ROUTE_PATH } from '../../configs/slider';
 const PublicRoute = ({ children }) => {
     const { accessToken, userInfo } = useSelector(state => state.auth);
 
-    // If user is already authenticated, redirect to orders
+    // If user is already authenticated, redirect to products
     if (accessToken && userInfo) {
-        return <Navigate to={ROUTE_PATH.ORDERS} replace />;
+        return <Navigate to={ROUTE_PATH.PRODUCTS} replace />;
     }
 
     return children;

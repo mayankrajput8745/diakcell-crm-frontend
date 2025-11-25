@@ -1,38 +1,91 @@
-import { RiReceiptLine } from "@remixicon/react";
+import { 
+    RiDashboardLine,
+    RiBox3Line,
+    RiStore2Line,
+    RiStackLine,
+    RiShoppingCartLine,
+    RiNotificationLine
+} from "@remixicon/react";
 
 export const ROUTE_PATH = Object.freeze({
     // ----------------- AUTH ROUTES -----------------
-     LOGIN: "/auth/login",
+    LOGIN: "/auth/login",
     FORGOT_PASSWORD: "/auth/forgot-password",
     RESET_PASSWORD: "/auth/reset-password",
     REQUEST_ACCESS: "/auth/request-access", 
 
     // ----------------- APP ROUTES ----------------
-    ORDERS: "/",
-    MANUAL_ORDER: "/orders/manual"
+    DASHBOARD: "/",
+    PRODUCTS: "/products",
+    WAREHOUSE: "/warehouse",
+    INVENTORY: "/inventory",
+    ORDERS: "/orders",
+    CREATE_ORDER: "/orders/create",
+    ORDER_STATUS: "/orders/status",
+    ALERTS: "/alerts",
 });
 
 export const APP_PAGES = Object.freeze({
-    LOGIN: "login",
+    LOGIN: "Login",
     FORGOT_PASSWORD: "Forgot Password",
     RESET_PASSWORD: "Reset Password",
+    DASHBOARD: "Dashboard",
+    PRODUCTS: "Products",
+    WAREHOUSE: "Warehouse",
+    INVENTORY: "Inventory",
     ORDERS: "Orders",
-    MANUAL_ORDER: "Create Manual Order"
+    CREATE_ORDER: "Create Order",
+    ORDER_STATUS: "Order Status",
+    ALERTS: "Alerts",
 });
 
-export const SLIDER_LIST = [{
-    type: "group",
-    label: "Build",
-    key: "build",
-    children: [
-        {
-            key: APP_PAGES.ORDERS,
-            label: APP_PAGES.ORDERS,
-            routepath: ROUTE_PATH.ORDERS,
-            icon: <RiReceiptLine size={16} />,
-            children: [
-
-            ]
-        }
-    ]
-}]
+export const SLIDER_LIST = [
+    {
+        key: "dashboard",
+        label: APP_PAGES.DASHBOARD,
+        routepath: ROUTE_PATH.DASHBOARD,
+        icon: <RiDashboardLine size={20} />
+    },
+    {
+        key: "products",
+        label: APP_PAGES.PRODUCTS,
+        routepath: ROUTE_PATH.PRODUCTS,
+        icon: <RiBox3Line size={20} />
+    },
+    {
+        key: "warehouse",
+        label: APP_PAGES.WAREHOUSE,
+        routepath: ROUTE_PATH.WAREHOUSE,
+        icon: <RiStore2Line size={20} />
+    },
+    {
+        key: "inventory",
+        label: APP_PAGES.INVENTORY,
+        routepath: ROUTE_PATH.INVENTORY,
+        icon: <RiStackLine size={20} />
+    },
+    {
+        key: "orders",
+        label: APP_PAGES.ORDERS,
+        routepath: ROUTE_PATH.ORDERS,
+        icon: <RiShoppingCartLine size={20} />,
+        children: [
+            {
+                key: "create-order",
+                label: APP_PAGES.CREATE_ORDER,
+                routepath: ROUTE_PATH.CREATE_ORDER
+            },
+            {
+                key: "order-status",
+                label: APP_PAGES.ORDER_STATUS,
+                routepath: ROUTE_PATH.ORDER_STATUS
+            }
+        ]
+    },
+    {
+        key: "alerts",
+        label: APP_PAGES.ALERTS,
+        routepath: ROUTE_PATH.ALERTS,
+        icon: <RiNotificationLine size={20} />
+    }
+];
