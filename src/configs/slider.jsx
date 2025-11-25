@@ -73,12 +73,14 @@ export const SLIDER_LIST = [
             {
                 key: "create-order",
                 label: APP_PAGES.CREATE_ORDER,
-                routepath: ROUTE_PATH.CREATE_ORDER
+                routepath: ROUTE_PATH.CREATE_ORDER,
+                icon: <RiShoppingCartLine size={16} />
             },
             {
                 key: "order-status",
                 label: APP_PAGES.ORDER_STATUS,
-                routepath: ROUTE_PATH.ORDER_STATUS
+                routepath: ROUTE_PATH.ORDER_STATUS,
+                icon: <RiShoppingCartLine size={16} />
             }
         ]
     },

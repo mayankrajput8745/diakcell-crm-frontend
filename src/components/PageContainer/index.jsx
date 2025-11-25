@@ -1,6 +1,7 @@
 import { Layout, Menu, Avatar, Badge, Typography } from "antd";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { RiBox3Line, RiLogoutBoxLine } from "@remixicon/react";
 import { logout } from "../../store/authReducer";
 import { ROUTE_PATH, SLIDER_LIST } from "../../configs/slider";
@@ -14,6 +15,9 @@ const PageContainer = () => {
     const location = useLocation();
     const dispatch = useDispatch();
     const { userInfo } = useSelector(state => state.auth);
+    
+    // State to manage which submenus are open
+    const [openKeys, setOpenKeys] = useState([]);
 
     // Get current selected key from location
     const getSelectedKey = () => {
@@ -37,21 +41,25 @@ const PageContainer = () => {
         return 'dashboard';
     };
 
-    // Get open keys for submenu
-    const getOpenKeys = () => {
+    // Get initial open keys for submenu based on current route
+    useEffect(() => {
         const currentPath = location.pathname;
 
         for (const item of SLIDER_LIST) {
             if (item.children) {
                 for (const child of item.children) {
                     if (child.routepath === currentPath) {
-                        return [item.key];
+                        setOpenKeys([item.key]);
+                        return;
                     }
                 }
             }
         }
+    }, [location.pathname]);
 
-        return [];
+    // Handle submenu open/close
+    const handleOpenChange = (keys) => {
+        setOpenKeys(keys);
     };
 
     const handleLogout = async () => {
@@ -73,7 +81,8 @@ const PageContainer = () => {
         children: item.children ? item.children.map(child => ({
             key: child.key,
             label: child.label,
-            onClick: () => navigate(child.routepath)
+            onClick: () => navigate(child.routepath),
+            icon: child.icon
         })) : undefined
     }));
 
@@ -98,7 +107,6 @@ const PageContainer = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '12px',
-                    // borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                     minHeight: '72px'
                 }}>
                     <div style={{
@@ -127,13 +135,14 @@ const PageContainer = () => {
                 <Menu
                     mode="inline"
                     selectedKeys={[getSelectedKey()]}
-                    defaultOpenKeys={getOpenKeys()}
+                    openKeys={openKeys}
+                    onOpenChange={handleOpenChange}
                     items={menuItems}
                     style={{
                         background: 'transparent',
                         border: 'none',
                         padding: '16px 12px',
-                        marginBottom: '80px' // Space for logout button
+                        marginBottom: '80px'
                     }}
                     theme="dark"
                     className="custom-sidebar-menu"
@@ -174,47 +183,127 @@ const PageContainer = () => {
                     </div>
                 </div>
 
-                {/* Custom CSS for sidebar */}
+                {/* Enhanced Custom CSS - BEST OF BOTH WORLDS */}
                 <style>{`
+                    /* Main Menu Items */
                     .custom-sidebar-menu .ant-menu-item {
                         border-radius: 8px !important;
                         margin: 4px 0 !important;
                         height: 44px !important;
                         line-height: 44px !important;
                         padding-left: 16px !important;
+                        transition: all 0.3s ease !important;
                     }
                     
+                    /* Submenu Title */
                     .custom-sidebar-menu .ant-menu-submenu-title {
                         border-radius: 8px !important;
                         margin: 4px 0 !important;
                         height: 44px !important;
                         line-height: 44px !important;
                         padding-left: 16px !important;
+                        transition: all 0.3s ease !important;
                     }
                     
+                    /* Selected Menu Item */
                     .custom-sidebar-menu .ant-menu-item-selected {
                         background: #3B82F6 !important;
                         color: white !important;
                     }
                     
+                    /* Menu Item Hover */
                     .custom-sidebar-menu .ant-menu-item:hover {
                         background: rgba(255, 255, 255, 0.1) !important;
                         color: white !important;
                     }
                     
+                    /* Submenu Title Hover */
                     .custom-sidebar-menu .ant-menu-submenu-title:hover {
                         background: rgba(255, 255, 255, 0.1) !important;
                         color: white !important;
                     }
                     
-                    .custom-sidebar-menu .ant-menu-sub {
-                        background: rgba(0, 0, 0, 0.2) !important;
+                    /* Base submenu container - allows collapse animation */
+                    .custom-sidebar-menu .ant-menu-sub.ant-menu-inline {
+                        background: rgba(0, 0, 0, 0.3) !important;
+                        border-radius: 8px !important;
+                        padding: 8px 0 !important;
+                        overflow: hidden !important;
+                        /* Don't set display here - let Ant Design control it */
                     }
                     
+                    .custom-sidebar-menu .ant-menu-submenu-open > .ant-menu-sub.ant-menu-inline:not([style*="height"]) {
+                        display: flex !important;
+                        flex-direction: column !important;
+                        align-items: center !important;
+                    }
+                    
+                    /* Submenu Items - adjusted for centered layout */
                     .custom-sidebar-menu .ant-menu-sub .ant-menu-item {
                         padding-left: 48px !important;
                         height: 40px !important;
                         line-height: 40px !important;
+                        margin: 2px 8px !important;
+                        border-radius: 6px !important;
+                        width: calc(100% - 16px) !important;
+                    }
+                    
+                    /* Selected Submenu Item */
+                    .custom-sidebar-menu .ant-menu-sub .ant-menu-item-selected {
+                        background: #3B82F6 !important;
+                        color: white !important;
+                    }
+                    
+                    /* Submenu Item Hover */
+                    .custom-sidebar-menu .ant-menu-sub .ant-menu-item:hover {
+                        background: rgba(255, 255, 255, 0.15) !important;
+                        color: white !important;
+                    }
+                    
+                    /* Remove default Ant Design submenu padding */
+                    .custom-sidebar-menu.ant-menu-inline .ant-menu-sub.ant-menu-inline {
+                        padding-inline-start: 0 !important;
+                    }
+                    
+                    /* Submenu Arrow Icon */
+                    .custom-sidebar-menu .ant-menu-submenu-arrow {
+                        color: rgba(255, 255, 255, 0.65) !important;
+                        transition: transform 0.3s ease !important;
+                    }
+                    
+                    /* Open Submenu Arrow Rotation */
+                    .custom-sidebar-menu .ant-menu-submenu-open > .ant-menu-submenu-title .ant-menu-submenu-arrow {
+                        transform: rotate(180deg) !important;
+                    }
+                    
+                    /* Submenu Title when Open */
+                    .custom-sidebar-menu .ant-menu-submenu-open > .ant-menu-submenu-title {
+                        background: rgba(255, 255, 255, 0.05) !important;
+                        color: white !important;
+                    }
+                    
+                    /* Menu Item Icon */
+                    .custom-sidebar-menu .ant-menu-item-icon {
+                        font-size: 20px !important;
+                        color: inherit !important;
+                    }
+                    
+                    /* Submenu Title Icon */
+                    .custom-sidebar-menu .ant-menu-submenu-title .ant-menu-item-icon {
+                        font-size: 20px !important;
+                        color: inherit !important;
+                    }
+                    
+                    /* Remove default borders */
+                    .custom-sidebar-menu.ant-menu-inline,
+                    .custom-sidebar-menu.ant-menu-inline .ant-menu-item,
+                    .custom-sidebar-menu.ant-menu-inline .ant-menu-submenu-title {
+                        border: none !important;
+                    }
+                    
+                    /* Smooth transitions for all menu interactions */
+                    .custom-sidebar-menu * {
+                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
                     }
                 `}</style>
             </Sider>

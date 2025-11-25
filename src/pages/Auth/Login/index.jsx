@@ -53,7 +53,7 @@ const Login = () => {
     const onFinish = async (values) => {
         try {
             await dispatch(login(values)).unwrap();
-            navigate(ROUTE_PATH.ORDERS);
+            navigate(ROUTE_PATH.PRODUCTS);
         } catch (error) {
             console.error("Login failed:", error);
         }
@@ -116,6 +116,7 @@ const Login = () => {
                     <Input 
                         prefix={<UserOutlined style={{ color: '#9CA3AF' }} />}
                         placeholder="Enter email (username)"
+                        disabled={loading}
                         style={{
                             borderRadius: '6px',
                             padding: '10px 12px'
@@ -137,6 +138,7 @@ const Login = () => {
                     <Input.Password
                         prefix={<LockOutlined style={{ color: '#9CA3AF' }} />}
                         placeholder="Enter your password"
+                        disabled={loading}
                         iconRender={(visible) => 
                             visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                         }
@@ -159,17 +161,21 @@ const Login = () => {
                         valuePropName="checked" 
                         style={{ margin: 0 }}
                     >
-                        <Checkbox style={{ fontSize: '14px', color: '#374151' }}>
+                        <Checkbox 
+                            disabled={loading}
+                            style={{ fontSize: '14px', color: '#374151' }}
+                        >
                             Remember Me
                         </Checkbox>
                     </Form.Item>
                     <Link 
-                        onClick={() => navigate(ROUTE_PATH.FORGOT_PASSWORD)}
+                        onClick={() => !loading && navigate(ROUTE_PATH.FORGOT_PASSWORD)}
                         style={{ 
                             fontSize: '14px',
                             fontWeight: 500,
-                            color: '#3B82F6',
-                            cursor: 'pointer'
+                            color: loading ? '#9CA3AF' : '#3B82F6',
+                            cursor: loading ? 'not-allowed' : 'pointer',
+                            pointerEvents: loading ? 'none' : 'auto'
                         }}
                     >
                         Forgot Password?
@@ -183,6 +189,7 @@ const Login = () => {
                         htmlType="submit" 
                         block 
                         loading={loading}
+                        disabled={loading}
                         style={{
                             height: '44px',
                             fontSize: '16px',
@@ -201,11 +208,12 @@ const Login = () => {
                     <Text style={{ color: '#6B7280', fontSize: '14px' }}>
                         Don't have an account?{' '}
                         <Link 
-                            onClick={() => navigate(ROUTE_PATH.REQUEST_ACCESS)}
+                            onClick={() => !loading && navigate(ROUTE_PATH.REQUEST_ACCESS)}
                             style={{ 
                                 fontWeight: 500,
-                                color: '#3B82F6',
-                                cursor: 'pointer'
+                                color: loading ? '#9CA3AF' : '#3B82F6',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                pointerEvents: loading ? 'none' : 'auto'
                             }}
                         >
                             Request Access
