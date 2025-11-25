@@ -2,24 +2,20 @@ import { Form, Input, Button, Typography, Card, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../../configs/slider";
+import { useDispatch } from "react-redux";
+import { forgotPassword } from "../../../store/authReducer";
 
 const { Title, Text, Link } = Typography;
 
 const ForgotPassword = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
         try {
-            // TODO: Implement API call to send reset password email
-            console.log('Forgot password email:', values);
-            
-            message.success('Password reset link has been sent to your email!');
-            
-            // Optionally redirect to login after a short delay
-            setTimeout(() => {
-                navigate(ROUTE_PATH.LOGIN);
-            }, 2000);
+            await dispatch(forgotPassword(values)).unwrap();
+            navigate(ROUTE_PATH.LOGIN);
         } catch (error) {
             message.error('Failed to send reset link. Please try again.');
             console.error("Forgot password failed:", error);

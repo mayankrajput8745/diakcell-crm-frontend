@@ -15,4 +15,4 @@ export const METHOD_TYPES = Object.freeze({
   PATCH: "PATCH",
 });
 
-export const COMPANY_NAME = "Daickell";
+export const COMPANY_NAME = "Daikcell";
