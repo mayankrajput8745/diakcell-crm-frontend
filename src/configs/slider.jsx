@@ -20,8 +20,6 @@ export const ROUTE_PATH = Object.freeze({
     WAREHOUSE: "/warehouse",
     INVENTORY: "/inventory",
     ORDERS: "/orders",
-    CREATE_ORDER: "/orders/create",
-    ORDER_STATUS: "/orders/status",
     ALERTS: "/alerts",
 });
 
@@ -34,8 +32,6 @@ export const APP_PAGES = Object.freeze({
     WAREHOUSE: "Warehouse",
     INVENTORY: "Inventory",
     ORDERS: "Orders",
-    CREATE_ORDER: "Create Order",
-    ORDER_STATUS: "Order Status",
     ALERTS: "Alerts",
 });
 
@@ -69,20 +65,6 @@ export const SLIDER_LIST = [
         label: APP_PAGES.ORDERS,
         routepath: ROUTE_PATH.ORDERS,
         icon: <RiShoppingCartLine size={20} />,
-        children: [
-            {
-                key: "create-order",
-                label: APP_PAGES.CREATE_ORDER,
-                routepath: ROUTE_PATH.CREATE_ORDER,
-                icon: <RiShoppingCartLine size={16} />
-            },
-            {
-                key: "order-status",
-                label: APP_PAGES.ORDER_STATUS,
-                routepath: ROUTE_PATH.ORDER_STATUS,
-                icon: <RiShoppingCartLine size={16} />
-            }
-        ]
     },
     {
         key: "alerts",

@@ -91,8 +91,6 @@ function App() {
                 <Route path={ROUTE_PATH.WAREHOUSE} element={<div>Warehouse Page</div>} />
                 <Route path={ROUTE_PATH.INVENTORY} element={<div>Inventory Page</div>} />
                 <Route path={ROUTE_PATH.ORDERS} element={<div>Orders Page</div>} />
-                <Route path={ROUTE_PATH.CREATE_ORDER} element={<div>Create Order Page</div>} />
-                <Route path={ROUTE_PATH.ORDER_STATUS} element={<div>Order Status Page</div>} />
                 <Route path={ROUTE_PATH.ALERTS} element={<div>Alerts Page</div>} />
               </Route>
             </Route>
