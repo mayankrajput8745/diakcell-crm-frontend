@@ -17,6 +17,8 @@ export const ROUTE_PATH = Object.freeze({
     // ----------------- APP ROUTES ----------------
     DASHBOARD: "/",
     PRODUCTS: "/products",
+    PRODUCTS_ADD: "/products/add",
+    PRODUCTS_EDIT: "/products/edit/:id",
     WAREHOUSE: "/warehouse",
     INVENTORY: "/inventory",
     ORDERS: "/orders",
@@ -29,6 +31,8 @@ export const APP_PAGES = Object.freeze({
     RESET_PASSWORD: "Reset Password",
     DASHBOARD: "Dashboard",
     PRODUCTS: "Products",
+    PRODUCTS_ADD: "Add Product",
+    PRODUCTS_EDIT: "Edit Product",
     WAREHOUSE: "Warehouse",
     INVENTORY: "Inventory",
     ORDERS: "Orders",

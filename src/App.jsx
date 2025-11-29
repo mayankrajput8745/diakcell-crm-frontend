@@ -19,6 +19,8 @@ const RequestAccess = React.lazy(() => import('./pages/Auth/RequestAccess'));
 const ForgotPassword = React.lazy(() => import('./pages/Auth/ForgotPassword'));
 const ResetPassword = React.lazy(() => import('./pages/Auth/ResetPassword'));
 const ProductsPage = React.lazy(() => import('./pages/Products'));
+const AddProductPage = React.lazy(() => import('./pages/Products/Add'));
+const EditProductPage = React.lazy(() => import('./pages/Products/Edit'));
 
 function App() {
   return (
@@ -87,7 +89,12 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route element={<PageContainer />}>
                 <Route path={ROUTE_PATH.DASHBOARD} element={<div>Dashboard Page</div>} />
+                
+                {/* Products Routes */}
                 <Route path={ROUTE_PATH.PRODUCTS} element={<ProductsPage />} />
+                <Route path={ROUTE_PATH.PRODUCTS_ADD} element={<AddProductPage />} />
+                <Route path={ROUTE_PATH.PRODUCTS_EDIT} element={<EditProductPage />} />
+                
                 <Route path={ROUTE_PATH.WAREHOUSE} element={<div>Warehouse Page</div>} />
                 <Route path={ROUTE_PATH.INVENTORY} element={<div>Inventory Page</div>} />
                 <Route path={ROUTE_PATH.ORDERS} element={<div>Orders Page</div>} />

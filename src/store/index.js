@@ -1,9 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import authReducer from "./authReducer";
+import productReducer from "./productReducer";
 
 const appReducer = combineReducers({
     auth: authReducer,
+    product: productReducer,
 });
 
 const rootReducer = (state, action) => {
